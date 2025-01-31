@@ -8,16 +8,17 @@ interface TaskDisplaySingleProps {
     task: TaskDataModel;
     style?: React.CSSProperties;
     onDelete: (task: TaskDataModel) => void;
+    onToggle: (task: TaskDataModel) => void;
 }
 
-const TaskDisplaySingle: React.FC<TaskDisplaySingleProps> = ({ task, style, onDelete }) => {
+const TaskDisplaySingle: React.FC<TaskDisplaySingleProps> = ({ task, style, onDelete, onToggle }) => {
     return (
         <ListItem className="task-display-single" style={style} secondaryAction={
             <IconButton edge="end" onClick={() => onDelete(task)}>
                 <DeleteIcon sx={{ '&:hover': { color: 'red' } }} />
             </IconButton>
         }>
-            <Checkbox checked={task.isDone} disableRipple />
+            <Checkbox checked={task.isDone} onChange={() => onToggle(task)} disableRipple />
             <ListItemText primary={task.name} />
         </ListItem>
     );

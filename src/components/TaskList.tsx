@@ -18,6 +18,12 @@ const TaskList: React.FC = () => {
         setTasks(taskService.getTasks());
     };
 
+    const handleToggle = (task: TaskDataModel) => {
+        const updatedTask = { ...task, isDone: !task.isDone };
+        taskService.updateTask(task.id, updatedTask);
+        setTasks(taskService.getTasks());
+    };
+
     return (
         <List className="task-list" style={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
             {tasks.map((task) => (
@@ -25,6 +31,7 @@ const TaskList: React.FC = () => {
                     key={task.id}
                     task={task}
                     onDelete={handleDelete}
+                    onToggle={handleToggle}
                 />
             ))}
         </List>
