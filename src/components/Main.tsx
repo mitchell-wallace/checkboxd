@@ -1,5 +1,7 @@
 import React from 'react';
 import { Container, Typography } from '@mui/material';
+import Task from './Task';
+import TaskList from './TaskList';
 
 const Main: React.FC = () => {
     return (
@@ -7,7 +9,8 @@ const Main: React.FC = () => {
             <Typography variant="h4" component="h1" gutterBottom>
                 Your Tasks
             </Typography>
-            {/* Task list and input components will go here */}
+            <TaskList />
+            {/* Task input component will go here */}
         </Container>
     );
 };
