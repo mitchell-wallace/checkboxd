@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Checkbox, ListItem, ListItemText, IconButton, TextField } from '@mui/material';
 import { TaskDataModel } from '../models/TaskDataModel';
 import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
 import './TaskDisplaySingle.css';
 
 interface TaskDisplaySingleProps {
@@ -41,9 +42,14 @@ const TaskDisplaySingle: React.FC<TaskDisplaySingleProps> = ({ task, style, onDe
 
     return (
         <ListItem className="task-display-single" style={style} secondaryAction={
-            <IconButton edge="end" onClick={() => onDelete(task)}>
-                <DeleteIcon sx={{ '&:hover': { color: 'red' } }} />
-            </IconButton>
+            <>
+                <IconButton edge="end" onClick={() => setIsEditing(true)}>
+                    <EditIcon sx={{ '&:hover': { color: 'blue' } }} />
+                </IconButton>
+                <IconButton edge="end" onClick={() => onDelete(task)}>
+                    <DeleteIcon sx={{ '&:hover': { color: 'red' } }} />
+                </IconButton>
+            </>
         }>
             <Checkbox checked={task.isDone} onChange={() => onToggle(task)} disableRipple />
             {isEditing ? (
@@ -60,7 +66,7 @@ const TaskDisplaySingle: React.FC<TaskDisplaySingleProps> = ({ task, style, onDe
             ) : (
                 <ListItemText 
                     primary={task.name} 
-                    onDoubleClick={handleDoubleClick}
+                    onClick={handleDoubleClick}
                     style={{ cursor: 'pointer' }}
                 />
             )}
