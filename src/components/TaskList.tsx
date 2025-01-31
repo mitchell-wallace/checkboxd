@@ -19,7 +19,7 @@ const TaskList: React.FC = () => {
     }, []);
 
     const handleDelete = (task: TaskDataModel) => {
-        const index = tasks.findIndex(t => t.name === task.name);
+        const index = tasks.findIndex(t => t.id === task.id);
         if (index !== -1) {
             taskService.deleteTask(index);
             setTasks(taskService.getTasks());

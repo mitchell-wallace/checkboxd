@@ -1,4 +1,5 @@
 import { TaskDataModel } from '../models/TaskDataModel';
+import { v4 as uuidv4 } from 'uuid';
 
 class TaskService {
     private tasks: TaskDataModel[] = [];
@@ -8,8 +9,13 @@ class TaskService {
     }
 
     // Create a new task
-    createTask(task: TaskDataModel): void {
-        this.tasks.push(task);
+    createTask(name: string): void {
+        const newTask: TaskDataModel = {
+            id: uuidv4(),
+            name: name,
+            isDone: false
+        };
+        this.tasks.push(newTask);
     }
 
     // Read all tasks
