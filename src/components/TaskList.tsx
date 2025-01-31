@@ -5,11 +5,12 @@ import TaskService from '../services/TaskService';
 import './TaskList.css';
 import { TaskDataModel } from '../models/TaskDataModel';
 
-const taskService = new TaskService([
-    { name: 'Task 1', isDone: false },
-    { name: 'Task 2', isDone: true },
-    { name: 'Task 3', isDone: false }
-]);
+const taskService = new TaskService();
+
+// Add three sample tasks
+taskService.createTask('Task 1');
+taskService.createTask('Task 2');
+taskService.createTask('Task 3');
 
 const TaskList: React.FC = () => {
     const [tasks, setTasks] = useState<TaskDataModel[]>([]);

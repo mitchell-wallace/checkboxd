@@ -4,8 +4,7 @@ import { v4 as uuidv4 } from 'uuid';
 class TaskService {
     private tasks: TaskDataModel[] = [];
 
-    constructor(initialTasks: TaskDataModel[] = []) {
-        this.tasks = initialTasks;
+    constructor() {
     }
 
     // Create a new task
