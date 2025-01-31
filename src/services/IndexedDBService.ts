@@ -7,10 +7,17 @@ class IndexedDBService {
     private db: IDBDatabase | null = null;
 
     constructor() {
-        this.initDB();
+        // Don't automatically initialize in constructor
+        // to allow better control in tests
     }
 
-    private initDB(): Promise<void> {
+    public async ensureInitialized(): Promise<void> {
+        if (!this.db) {
+            await this.initDB();
+        }
+    }
+
+    public initDB(): Promise<void> {
         return new Promise((resolve, reject) => {
             const request = indexedDB.open(this.dbName, this.version);
 
@@ -20,6 +27,13 @@ class IndexedDBService {
 
             request.onsuccess = (event) => {
                 this.db = (event.target as IDBOpenDBRequest).result;
+                
+                // Handle connection errors
+                this.db.onerror = (event) => {
+                    const dbError = (event.target as IDBDatabase).onerror;
+                    console.error('Database error:', dbError || 'Unknown error');
+                };
+
                 resolve();
             };
 
@@ -40,7 +54,12 @@ class IndexedDBService {
             const request = store.getAll();
 
             request.onerror = () => reject(new Error('Failed to get tasks'));
-            request.onsuccess = () => resolve(request.result);
+            request.onsuccess = () => resolve(request.result || []);
+
+            transaction.onerror = () => reject(new Error('Transaction failed'));
+            transaction.oncomplete = () => {
+                if (!request.result) resolve([]);
+            };
         });
     }
 
@@ -49,10 +68,21 @@ class IndexedDBService {
         return new Promise((resolve, reject) => {
             const transaction = this.db!.transaction(this.storeName, 'readwrite');
             const store = transaction.objectStore(this.storeName);
-            const request = store.add(task);
+            
+            // Check if task with this ID already exists
+            const getRequest = store.get(task.id);
+            getRequest.onsuccess = () => {
+                if (getRequest.result) {
+                    reject(new Error(`Task with ID ${task.id} already exists`));
+                    return;
+                }
 
-            request.onerror = () => reject(new Error('Failed to add task'));
-            request.onsuccess = () => resolve();
+                const addRequest = store.add(task);
+                addRequest.onerror = () => reject(new Error('Failed to add task'));
+            };
+
+            transaction.oncomplete = () => resolve();
+            transaction.onerror = () => reject(new Error('Transaction failed'));
         });
     }
 
@@ -61,10 +91,12 @@ class IndexedDBService {
         return new Promise((resolve, reject) => {
             const transaction = this.db!.transaction(this.storeName, 'readwrite');
             const store = transaction.objectStore(this.storeName);
-            const request = store.put(task);
+            
+            const putRequest = store.put(task);
+            putRequest.onerror = () => reject(new Error('Failed to update task'));
 
-            request.onerror = () => reject(new Error('Failed to update task'));
-            request.onsuccess = () => resolve();
+            transaction.oncomplete = () => resolve();
+            transaction.onerror = () => reject(new Error('Transaction failed'));
         });
     }
 
@@ -76,13 +108,18 @@ class IndexedDBService {
             const request = store.delete(id);
 
             request.onerror = () => reject(new Error('Failed to delete task'));
-            request.onsuccess = () => resolve();
+
+            transaction.oncomplete = () => resolve();
+            transaction.onerror = () => reject(new Error('Transaction failed'));
         });
     }
 
     private async ensureDBReady(): Promise<void> {
         if (!this.db) {
             await this.initDB();
+        }
+        if (!this.db) {
+            throw new Error('Database connection failed');
         }
     }
 }
