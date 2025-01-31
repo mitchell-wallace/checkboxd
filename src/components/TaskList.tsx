@@ -25,6 +25,12 @@ const TaskList: React.FC = () => {
         setTasks(taskService.getTasks());
     };
 
+    const handleNameChange = (task: TaskDataModel, newName: string) => {
+        const updatedTask = { ...task, name: newName };
+        taskService.updateTask(task.id, updatedTask);
+        setTasks(taskService.getTasks());
+    };
+
     const refreshTasks = () => {
         setTasks(taskService.getTasks());
     };
@@ -39,6 +45,7 @@ const TaskList: React.FC = () => {
                         task={task}
                         onDelete={handleDelete}
                         onToggle={handleToggle}
+                        onNameChange={handleNameChange}
                     />
                 ))}
             </List>
