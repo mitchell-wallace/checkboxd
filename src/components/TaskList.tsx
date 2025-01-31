@@ -1,6 +1,6 @@
 import React from 'react';
 import { List } from '@mui/material';
-import Task from './Task';
+import TaskDisplaySingle from './TaskDisplaySingle';
 
 const TaskList: React.FC = () => {
     const tasks = [
@@ -12,7 +12,7 @@ const TaskList: React.FC = () => {
     return (
         <List>
             {tasks.map((task, index) => (
-                <Task key={index} name={task.name} isDone={task.isDone} />
+                <TaskDisplaySingle key={index} name={task.name} isDone={task.isDone} />
             ))}
         </List>
     );
