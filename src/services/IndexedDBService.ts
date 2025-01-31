@@ -96,6 +96,11 @@ class IndexedDBService {
             throw new Error('Unexpected error occurred');
         }
     }
+
+    // Add cleanup method for testing
+    async cleanup(): Promise<void> {
+        await this.db.close();
+    }
 }
 
 export default IndexedDBService;

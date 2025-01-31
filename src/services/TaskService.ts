@@ -5,68 +5,71 @@ import IndexedDBService from './IndexedDBService';
 class TaskService {
     private tasks: TaskDataModel[] = [];
     private dbService: IndexedDBService;
+    private initialized: Promise<void>;
 
     constructor() {
         this.dbService = new IndexedDBService();
         // Load initial data
-        this.dbService.getAllTasks().then(tasks => {
+        this.initialized = this.dbService.getAllTasks().then(tasks => {
             this.tasks = tasks;
         }).catch(error => {
             console.error('Failed to load tasks:', error);
+            throw error;
         });
     }
 
     // Create a new task
-    createTask(name: string): void {
+    async createTask(name: string): Promise<void> {
+        await this.initialized;
         const newTask: TaskDataModel = {
             id: uuidv4(),
             name: name,
             isDone: false
         };
-        this.tasks.push(newTask);
-        // Persist to IndexedDB
-        this.dbService.addTask(newTask).catch(error => {
+        
+        // Persist to IndexedDB first
+        try {
+            await this.dbService.addTask(newTask);
+            this.tasks.push(newTask);
+        } catch (error) {
             console.error('Failed to save task:', error);
-            // Remove from cache if save failed
-            const index = this.tasks.findIndex(task => task.id === newTask.id);
-            if (index !== -1) {
-                this.tasks.splice(index, 1);
-            }
-        });
+            throw error;
+        }
     }
 
     // Read all tasks
-    getTasks(): TaskDataModel[] {
+    async getTasks(): Promise<TaskDataModel[]> {
+        await this.initialized;
         return [...this.tasks];
     }
 
     // Update a task by id
-    updateTask(id: string, updatedTask: TaskDataModel): void {
+    async updateTask(id: string, updatedTask: TaskDataModel): Promise<void> {
+        await this.initialized;
         const index = this.tasks.findIndex(task => task.id === id);
         if (index !== -1) {
-            const oldTask = this.tasks[index];
-            this.tasks[index] = updatedTask;
-            // Persist to IndexedDB
-            this.dbService.updateTask(updatedTask).catch(error => {
+            try {
+                await this.dbService.updateTask(updatedTask);
+                this.tasks[index] = updatedTask;
+            } catch (error) {
                 console.error('Failed to update task:', error);
-                // Revert to old state if update failed
-                this.tasks[index] = oldTask;
-            });
+                throw error;
+            }
         }
     }
 
     // Delete a task by id
-    deleteTask(id: string): void {
+    async deleteTask(id: string): Promise<void> {
+        await this.initialized;
         const index = this.tasks.findIndex(task => task.id === id);
         if (index !== -1) {
-            const deletedTask = this.tasks[index];
-            this.tasks.splice(index, 1);
-            // Persist to IndexedDB
-            this.dbService.deleteTask(id).catch(error => {
+            try {
+                await this.dbService.deleteTask(id);
+                this.tasks.splice(index, 1);
+            } catch (error) {
                 console.error('Failed to delete task:', error);
-                // Restore task if delete failed
-                this.tasks.splice(index, 0, deletedTask);
-            });
+                throw error;
+            }
         }
     }
 }
