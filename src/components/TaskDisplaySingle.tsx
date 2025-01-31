@@ -7,7 +7,7 @@ interface TaskDisplaySingleProps {
     style?: React.CSSProperties;
 }
 
-const Task: React.FC<TaskDisplaySingleProps> = ({ task, style }) => {
+const TaskDisplaySingle: React.FC<TaskDisplaySingleProps> = ({ task, style }) => {
     return (
         <ListItem style={style}>
             <Checkbox checked={task.isDone} disableRipple />
@@ -16,4 +16,4 @@ const Task: React.FC<TaskDisplaySingleProps> = ({ task, style }) => {
     );
 };
 
-export default Task;
+export default TaskDisplaySingle;
