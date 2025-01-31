@@ -53,15 +53,21 @@ const TaskList: React.FC = () => {
         <div>
             <TaskCreate onCreateTask={handleCreateTask} refreshTasks={refreshTasks} />
             <List className="task-list" style={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
-                {tasks.map((task) => (
-                    <TaskDisplaySingle 
-                        key={task.id}
-                        task={task}
-                        onDelete={handleDelete}
-                        onToggle={handleToggle}
-                        onNameChange={handleNameChange}
-                    />
-                ))}
+                {tasks.length === 0 ? (
+                    <div style={{ textAlign: 'center', padding: '20px', color: '#666' }}>
+                        No tasks here yet...
+                    </div>
+                ) : (
+                    tasks.map((task) => (
+                        <TaskDisplaySingle 
+                            key={task.id}
+                            task={task}
+                            onDelete={handleDelete}
+                            onToggle={handleToggle}
+                            onNameChange={handleNameChange}
+                        />
+                    ))
+                )}
             </List>
         </div>
     );
