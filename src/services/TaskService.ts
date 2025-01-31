@@ -22,16 +22,18 @@ class TaskService {
         return this.tasks;
     }
 
-    // Update a task by index
-    updateTask(index: number, updatedTask: TaskDataModel): void {
-        if (index >= 0 && index < this.tasks.length) {
+    // Update a task by id
+    updateTask(id: string, updatedTask: TaskDataModel): void {
+        const index = this.tasks.findIndex(task => task.id === id);
+        if (index !== -1) {
             this.tasks[index] = updatedTask;
         }
     }
 
-    // Delete a task by index
-    deleteTask(index: number): void {
-        if (index >= 0 && index < this.tasks.length) {
+    // Delete a task by id
+    deleteTask(id: string): void {
+        const index = this.tasks.findIndex(task => task.id === id);
+        if (index !== -1) {
             this.tasks.splice(index, 1);
         }
     }

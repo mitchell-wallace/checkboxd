@@ -20,17 +20,14 @@ const TaskList: React.FC = () => {
     }, []);
 
     const handleDelete = (task: TaskDataModel) => {
-        const index = tasks.findIndex(t => t.id === task.id);
-        if (index !== -1) {
-            taskService.deleteTask(index);
-            setTasks(taskService.getTasks());
-        }
+        taskService.deleteTask(task.id);
+        setTasks(taskService.getTasks());
     };
 
     return (
         <List className="task-list" style={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
-            {tasks.map((task, index) => (
-                <ListItem key={index} className="task-list-item" style={{ width: '100%' }}>
+            {tasks.map((task) => (
+                <ListItem key={task.id} className="task-list-item" style={{ width: '100%' }}>
                     <TaskDisplaySingle task={task} style={{ width: '100%' }} onDelete={handleDelete} />
                 </ListItem>
             ))}
