@@ -11,33 +11,42 @@ const TaskList: React.FC = () => {
     const [tasks, setTasks] = useState<TaskDataModel[]>([]);
 
     useEffect(() => {
-        setTasks(taskService.getTasks());
+        const loadTasks = async () => {
+            const fetchedTasks = await taskService.getTasks();
+            setTasks(fetchedTasks);
+        };
+        loadTasks();
     }, [taskService]);
 
-    const handleDelete = (task: TaskDataModel) => {
-        taskService.deleteTask(task.id);
-        setTasks(taskService.getTasks());
+    const handleDelete = async (task: TaskDataModel) => {
+        await taskService.deleteTask(task.id);
+        const updatedTasks = await taskService.getTasks();
+        setTasks(updatedTasks);
     };
 
-    const handleToggle = (task: TaskDataModel) => {
+    const handleToggle = async (task: TaskDataModel) => {
         const updatedTask = { ...task, isDone: !task.isDone };
-        taskService.updateTask(task.id, updatedTask);
-        setTasks(taskService.getTasks());
+        await taskService.updateTask(task.id, updatedTask);
+        const updatedTasks = await taskService.getTasks();
+        setTasks(updatedTasks);
     };
 
-    const handleNameChange = (task: TaskDataModel, newName: string) => {
+    const handleNameChange = async (task: TaskDataModel, newName: string) => {
         const updatedTask = { ...task, name: newName };
-        taskService.updateTask(task.id, updatedTask);
-        setTasks(taskService.getTasks());
+        await taskService.updateTask(task.id, updatedTask);
+        const updatedTasks = await taskService.getTasks();
+        setTasks(updatedTasks);
     };
 
-    const handleCreateTask = (taskName: string) => {
-        taskService.createTask(taskName);
-        setTasks(taskService.getTasks());
+    const handleCreateTask = async (taskName: string) => {
+        await taskService.createTask(taskName);
+        const updatedTasks = await taskService.getTasks();
+        setTasks(updatedTasks);
     };
 
-    const refreshTasks = () => {
-        setTasks(taskService.getTasks());
+    const refreshTasks = async () => {
+        const updatedTasks = await taskService.getTasks();
+        setTasks(updatedTasks);
     };
 
     return (
