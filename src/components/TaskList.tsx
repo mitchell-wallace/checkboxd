@@ -4,7 +4,7 @@ import TaskDisplaySingle from './TaskDisplaySingle';
 import TaskCreate from './TaskCreate'; // added import statement
 import './TaskList.css';
 import { TaskDataModel } from '../models/TaskDataModel';
-import { useTaskService } from '../contexts/TaskServiceContext';
+import { useTaskService } from '../hooks/useTaskService';
 
 const TaskList: React.FC = () => {
     const taskService = useTaskService();

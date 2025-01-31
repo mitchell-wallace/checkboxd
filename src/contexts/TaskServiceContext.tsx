@@ -1,7 +1,6 @@
-import React, { createContext, useContext, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import TaskService from '../services/TaskService';
-
-const TaskServiceContext = createContext<TaskService | null>(null);
+import { TaskServiceContext } from './taskServiceContextValue';
 
 export const TaskServiceProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const taskService = useMemo(() => {
@@ -17,12 +16,4 @@ export const TaskServiceProvider: React.FC<{ children: React.ReactNode }> = ({ c
             {children}
         </TaskServiceContext.Provider>
     );
-};
-
-export const useTaskService = () => {
-    const context = useContext(TaskServiceContext);
-    if (!context) {
-        throw new Error('useTaskService must be used within a TaskServiceProvider');
-    }
-    return context;
 };
