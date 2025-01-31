@@ -44,10 +44,10 @@ const TaskDisplaySingle: React.FC<TaskDisplaySingleProps> = ({ task, style, onDe
         <ListItem className="task-display-single" style={style} secondaryAction={
             <>
                 <IconButton edge="end" onClick={() => setIsEditing(true)}>
-                    <EditIcon sx={{ '&:hover': { color: 'blue' } }} />
+                    <EditIcon sx={{ '&:hover': { color: 'blue' }, paddingRight: '0.3em' }} />
                 </IconButton>
                 <IconButton edge="end" onClick={() => onDelete(task)}>
-                    <DeleteIcon sx={{ '&:hover': { color: 'red' } }} />
+                    <DeleteIcon sx={{ '&:hover': { color: 'red' }, paddingRight: '0.2em' }} />
                 </IconButton>
             </>
         }>

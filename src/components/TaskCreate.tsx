@@ -25,7 +25,7 @@ const TaskCreate: React.FC<TaskCreateProps> = ({ onCreateTask, refreshTasks }) =
     };
 
     return (
-        <Box display="flex" alignItems="center" width="100%">
+        <Box display="flex" alignItems="center" width="100%" paddingBottom="16px">
             <TextField 
                 value={taskName}
                 onChange={(e) => setTaskName(e.target.value)}
@@ -33,6 +33,16 @@ const TaskCreate: React.FC<TaskCreateProps> = ({ onCreateTask, refreshTasks }) =
                 label="New Task"
                 variant="outlined"
                 fullWidth
+                sx={{
+                    '& .MuiOutlinedInput-root': {
+                        borderRadius: '50px',
+                        '& fieldset': {
+                            borderColor: '#777',
+                            boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+                            border: '2px solid #777'
+                        }
+                    }
+                }}
             />
             <Button 
                 onClick={handleAddTask}
