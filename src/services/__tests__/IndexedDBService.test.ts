@@ -70,17 +70,33 @@ describe('IndexedDBService', () => {
   describe('data validation', () => {
     it('should reject tasks without ID', async () => {
       const invalidTask = { name: 'No ID', isDone: false } as TaskDataModel;
-      await expect(dbService.addTask(invalidTask)).rejects.toThrow(/primary key/);
+      await expect(dbService.addTask(invalidTask)).rejects.toThrow('Task must have an ID');
     });
 
     it('should handle malformed task data', async () => {
       const invalidTask = {
-        id: 'malformed',
-        name: 12345,
-        isDone: 'maybe'
+        id: 123, // wrong type for id
+        name: 456, // wrong type for name
+        isDone: 'not-a-boolean' // wrong type for isDone
       } as unknown as TaskDataModel;
       
-      await expect(dbService.addTask(invalidTask)).rejects.toThrow();
+      await expect(dbService.addTask(invalidTask)).rejects.toThrow('Task ID must be a string');
+
+      const invalidTask2 = {
+        id: 'valid-id',
+        name: 456, // wrong type for name
+        isDone: 'not-a-boolean' // wrong type for isDone
+      } as unknown as TaskDataModel;
+      
+      await expect(dbService.addTask(invalidTask2)).rejects.toThrow('Task name must be a string');
+
+      const invalidTask3 = {
+        id: 'valid-id',
+        name: 'valid name',
+        isDone: 'not-a-boolean' // wrong type for isDone
+      } as unknown as TaskDataModel;
+      
+      await expect(dbService.addTask(invalidTask3)).rejects.toThrow('Task isDone must be a boolean');
     });
   });
 
@@ -133,16 +149,14 @@ describe('IndexedDBService', () => {
 
     // Add to error handling
     it('should handle storage quota exceeded', async () => {
-        // Mock Dexie to simulate quota exceeded
-        const db = new CheckboxDB();
-        await db.open();
+        const db = CheckboxDB.getInstance();
         jest.spyOn(db.tasks, 'add').mockImplementationOnce(() => {
-        const err = new Error();
-        err.name = 'QuotaExceededError';
-        throw err;
+            const err = new Error('Storage quota exceeded');
+            err.name = 'QuotaExceededError';
+            throw err;
         });
     
-        await expect(dbService.addTask(testTask)).rejects.toThrow(/storage space/i);
+        await expect(dbService.addTask(testTask)).rejects.toThrow('Storage quota exceeded. Please free up space.');
     });
 
     it('should maintain consistency across multiple instances', async () => {
