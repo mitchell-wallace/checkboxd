@@ -1,17 +1,19 @@
+import React from 'react';
+import { Container } from '@mui/material';
 import './App.css'
 import Header from './components/Header';
 import Main from './components/Main';
 import Footer from './components/Footer';
+import { TaskServiceProvider } from './contexts/TaskServiceContext';
 
 function App() {
-
   return (
-    <>
-      <Header />
-      <Main />
-      <Footer />
-    </>
-  )
+    <TaskServiceProvider>
+        <Header />
+        <Main />
+        <Footer />
+    </TaskServiceProvider>
+  );
 }
 
-export default App
+export default App;

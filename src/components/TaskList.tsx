@@ -1,23 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { List, ListItem } from '@mui/material';
 import TaskDisplaySingle from './TaskDisplaySingle';
-import TaskService from '../services/TaskService';
 import './TaskList.css';
 import { TaskDataModel } from '../models/TaskDataModel';
-
-const taskService = new TaskService();
-
-// Add three sample tasks
-taskService.createTask('Task 1');
-taskService.createTask('Task 2');
-taskService.createTask('Task 3');
+import { useTaskService } from '../contexts/TaskServiceContext';
 
 const TaskList: React.FC = () => {
+    const taskService = useTaskService();
     const [tasks, setTasks] = useState<TaskDataModel[]>([]);
 
     useEffect(() => {
         setTasks(taskService.getTasks());
-    }, []);
+    }, [taskService]);
 
     const handleDelete = (task: TaskDataModel) => {
         taskService.deleteTask(task.id);
