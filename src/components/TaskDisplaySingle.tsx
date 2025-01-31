@@ -2,6 +2,7 @@ import React from 'react';
 import { Checkbox, ListItem, ListItemText, IconButton } from '@mui/material';
 import { TaskDataModel } from '../models/TaskDataModel';
 import DeleteIcon from '@mui/icons-material/Delete';
+import './TaskDisplaySingle.css';
 
 interface TaskDisplaySingleProps {
     task: TaskDataModel;
@@ -11,7 +12,7 @@ interface TaskDisplaySingleProps {
 
 const TaskDisplaySingle: React.FC<TaskDisplaySingleProps> = ({ task, style, onDelete }) => {
     return (
-        <ListItem style={style} secondaryAction={
+        <ListItem className="task-display-single" style={style} secondaryAction={
             <IconButton edge="end" onClick={() => onDelete(task)}>
                 <DeleteIcon sx={{ '&:hover': { color: 'red' } }} />
             </IconButton>

@@ -1,0 +1,10 @@
+.task-display-single {
+    border-bottom: 1px solid #f0f0f0;
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.task-display-single:last-child {
+    border-bottom: none;
+}

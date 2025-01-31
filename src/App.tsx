@@ -1,5 +1,3 @@
-import React from 'react';
-import { Container } from '@mui/material';
 import './App.css'
 import Header from './components/Header';
 import Main from './components/Main';

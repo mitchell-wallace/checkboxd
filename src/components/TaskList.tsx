@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { List, ListItem } from '@mui/material';
+import { List } from '@mui/material';
 import TaskDisplaySingle from './TaskDisplaySingle';
 import './TaskList.css';
 import { TaskDataModel } from '../models/TaskDataModel';
@@ -21,9 +21,11 @@ const TaskList: React.FC = () => {
     return (
         <List className="task-list" style={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
             {tasks.map((task) => (
-                <ListItem key={task.id} className="task-list-item" style={{ width: '100%' }}>
-                    <TaskDisplaySingle task={task} style={{ width: '100%' }} onDelete={handleDelete} />
-                </ListItem>
+                <TaskDisplaySingle 
+                    key={task.id}
+                    task={task}
+                    onDelete={handleDelete}
+                />
             ))}
         </List>
     );
