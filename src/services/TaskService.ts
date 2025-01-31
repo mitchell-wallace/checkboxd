@@ -19,7 +19,7 @@ class TaskService {
 
     // Read all tasks
     getTasks(): TaskDataModel[] {
-        return this.tasks;
+        return [...this.tasks];
     }
 
     // Update a task by id
