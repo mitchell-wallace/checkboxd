@@ -1,17 +1,26 @@
 import React, { useState } from 'react';
-import { useTaskService } from '../contexts/TaskServiceContext';
 import { Button, TextField, Box } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 
-const TaskCreate: React.FC<{ refreshTasks: () => void }> = ({ refreshTasks }) => {
-    const taskService = useTaskService();
+interface TaskCreateProps {
+    onCreateTask: (taskName: string) => void;
+    refreshTasks: () => void;
+}
+
+const TaskCreate: React.FC<TaskCreateProps> = ({ onCreateTask, refreshTasks }) => {
     const [taskName, setTaskName] = useState('');
 
     const handleAddTask = () => {
         if (taskName.trim()) {
-            taskService.createTask(taskName);
+            onCreateTask(taskName.trim());
             setTaskName(''); // Clear the input field
             refreshTasks(); // Call refreshTasks to update the task list
+        }
+    };
+
+    const handleKeyDown = (e: React.KeyboardEvent) => {
+        if (e.key === 'Enter') {
+            handleAddTask();
         }
     };
 
@@ -20,6 +29,7 @@ const TaskCreate: React.FC<{ refreshTasks: () => void }> = ({ refreshTasks }) =>
             <TextField 
                 value={taskName}
                 onChange={(e) => setTaskName(e.target.value)}
+                onKeyDown={handleKeyDown}
                 label="New Task"
                 variant="outlined"
                 fullWidth

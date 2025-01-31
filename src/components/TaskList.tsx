@@ -31,13 +31,18 @@ const TaskList: React.FC = () => {
         setTasks(taskService.getTasks());
     };
 
+    const handleCreateTask = (taskName: string) => {
+        taskService.createTask(taskName);
+        setTasks(taskService.getTasks());
+    };
+
     const refreshTasks = () => {
         setTasks(taskService.getTasks());
     };
 
     return (
         <div>
-            <TaskCreate refreshTasks={refreshTasks} />
+            <TaskCreate onCreateTask={handleCreateTask} refreshTasks={refreshTasks} />
             <List className="task-list" style={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
                 {tasks.map((task) => (
                     <TaskDisplaySingle 
