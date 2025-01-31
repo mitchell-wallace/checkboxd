@@ -1,7 +1,8 @@
 import React from 'react';
-import { List } from '@mui/material';
+import { List, ListItem } from '@mui/material';
 import TaskDisplaySingle from './TaskDisplaySingle';
 import TaskService from '../services/TaskService';
+import './TaskList.css';
 
 const taskService = new TaskService([
     { name: 'Task 1', isDone: false },
@@ -13,9 +14,11 @@ const TaskList: React.FC = () => {
     const tasks = taskService.getTasks();
 
     return (
-        <List>
+        <List className="task-list" style={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
             {tasks.map((task, index) => (
-                <TaskDisplaySingle key={index} name={task.name} isDone={task.isDone} />
+                <ListItem key={index} className="task-list-item" style={{ width: '100%' }}>
+                    <TaskDisplaySingle name={task.name} isDone={task.isDone} />
+                </ListItem>
             ))}
         </List>
     );
