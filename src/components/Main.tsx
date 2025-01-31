@@ -1,6 +1,5 @@
 import React from 'react';
 import { Container, Typography } from '@mui/material';
-import Task from './Task';
 import TaskList from './TaskList';
 
 const Main: React.FC = () => {

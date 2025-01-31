@@ -1,10 +1,6 @@
 import React from 'react';
 import { Checkbox, ListItem, ListItemText } from '@mui/material';
-
-interface TaskProps {
-    name: string;
-    isDone: boolean;
-}
+import { TaskProps } from '../models/TaskProps';
 
 const Task: React.FC<TaskProps> = ({ name, isDone }) => {
     return (
