@@ -1,11 +1,11 @@
 import React from 'react';
 import { AppBar, Toolbar, Typography, Box } from '@mui/material';
+import logoUrl from '../assets/logo.png';
 
 const Header: React.FC = () => {
     return (
         <AppBar position="fixed" style={{ width: '100%' }}>
             <Toolbar>
-                {/* Logo with white circular background */}
                 <Box
                     sx={{
                         backgroundColor: 'white',
@@ -17,7 +17,7 @@ const Header: React.FC = () => {
                         marginRight: '16px'
                     }}
                 >
-                    <img src="/public/logo.png" alt="Checkboxd Logo" style={{ height: '40px' }} />
+                    <img src={logoUrl} alt="Checkboxd Logo" style={{ height: '40px' }} />
                 </Box>
                 <Typography variant="h6">
                     Checkboxd
