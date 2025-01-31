@@ -1,7 +1,6 @@
 import React from 'react';
 import { Container, Typography } from '@mui/material';
 import TaskList from './TaskList';
-import TaskCreate from './TaskCreate';
 
 const Main: React.FC = () => {
     return (
@@ -9,7 +8,6 @@ const Main: React.FC = () => {
             <Typography variant="h4" component="h1" gutterBottom>
                 Your Tasks
             </Typography>
-            <TaskCreate />
             <TaskList />
         </Container>
     );
