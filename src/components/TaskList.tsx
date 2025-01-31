@@ -17,7 +17,7 @@ const TaskList: React.FC = () => {
         <List className="task-list" style={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
             {tasks.map((task, index) => (
                 <ListItem key={index} className="task-list-item" style={{ width: '100%' }}>
-                    <TaskDisplaySingle name={task.name} isDone={task.isDone} />
+                    <TaskDisplaySingle task={task} style={{ width: '100%' }} />
                 </ListItem>
             ))}
         </List>

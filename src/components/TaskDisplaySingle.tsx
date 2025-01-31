@@ -1,12 +1,17 @@
 import React from 'react';
 import { Checkbox, ListItem, ListItemText } from '@mui/material';
-import { TaskProps } from '../models/TaskProps';
+import { TaskDataModel } from '../models/TaskDataModel';
 
-const Task: React.FC<TaskProps> = ({ name, isDone }) => {
+interface TaskDisplaySingleProps {
+    task: TaskDataModel;
+    style?: React.CSSProperties;
+}
+
+const Task: React.FC<TaskDisplaySingleProps> = ({ task, style }) => {
     return (
-        <ListItem>
-            <Checkbox checked={isDone} disableRipple />
-            <ListItemText primary={name} />
+        <ListItem style={style}>
+            <Checkbox checked={task.isDone} disableRipple />
+            <ListItemText primary={task.name} />
         </ListItem>
     );
 };

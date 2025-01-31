@@ -1,24 +1,24 @@
-import { TaskProps } from '../models/TaskProps';
+import { TaskDataModel } from '../models/TaskDataModel';
 
 class TaskService {
-    private tasks: TaskProps[] = [];
+    private tasks: TaskDataModel[] = [];
 
-    constructor(initialTasks: TaskProps[] = []) {
+    constructor(initialTasks: TaskDataModel[] = []) {
         this.tasks = initialTasks;
     }
 
     // Create a new task
-    createTask(task: TaskProps): void {
+    createTask(task: TaskDataModel): void {
         this.tasks.push(task);
     }
 
     // Read all tasks
-    getTasks(): TaskProps[] {
+    getTasks(): TaskDataModel[] {
         return this.tasks;
     }
 
     // Update a task by index
-    updateTask(index: number, updatedTask: TaskProps): void {
+    updateTask(index: number, updatedTask: TaskDataModel): void {
         if (index >= 0 && index < this.tasks.length) {
             this.tasks[index] = updatedTask;
         }
