@@ -71,6 +71,19 @@ const Header: React.FC = () => {
                     >
                         Agency
                     </Link>
+                    <Link
+                        href="https://quotd.vercel.app/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        color="inherit"
+                        sx={{ 
+                            textDecoration: 'none',
+                            mr: 3,
+                            '&:hover': { textDecoration: 'underline' }
+                        }}
+                    >
+                        Quotd
+                    </Link>
                     <IconButton
                         href="https://github.com/mitchell-wallace"
                         target="_blank"
