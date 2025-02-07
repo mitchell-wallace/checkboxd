@@ -1,15 +1,11 @@
 import './App.css'
-import Header from './components/Header';
-import Main from './components/Main';
-import Footer from './components/Footer';
 import { TaskServiceProvider } from './contexts/TaskServiceContext';
+import { Layout } from './Layout';
 
 function App() {
   return (
     <TaskServiceProvider>
-        <Header />
-        <Main />
-        <Footer />
+        <Layout />
     </TaskServiceProvider>
   );
 }

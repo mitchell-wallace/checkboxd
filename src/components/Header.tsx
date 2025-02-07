@@ -9,7 +9,7 @@ const Header: React.FC = () => {
     };
 
     return (
-        <AppBar position="fixed" style={{ width: '100%' }}>
+        <AppBar position="block" style={{ width: '100%', marginBottom: '5em' }}>
             <Toolbar sx={{ justifyContent: 'space-between' }}>
                 <Link
                     component="button"
