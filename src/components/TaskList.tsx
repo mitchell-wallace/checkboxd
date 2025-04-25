@@ -51,7 +51,11 @@ const TaskList: React.FC = () => {
 
     return (
         <div>
-            <TaskCreate onCreateTask={handleCreateTask} refreshTasks={refreshTasks} />
+            <TaskCreate 
+                onCreateTask={handleCreateTask} 
+                refreshTasks={refreshTasks} 
+                currentTasks={tasks} 
+            />
             <List className="task-list" style={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
                 {tasks.length === 0 ? (
                     <div style={{ textAlign: 'center', padding: '20px', color: '#666' }}>
