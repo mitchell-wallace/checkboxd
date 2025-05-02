@@ -26,41 +26,26 @@ class TaskRecommendationService {
       rec => !existingTaskNames.includes(rec.taskName.toLowerCase())
     );
     
-    // If there's input text, use it to refine recommendations
-    if (inputText.trim()) {
-      const inputLower = inputText.toLowerCase();
+    const inputLower = inputText.trim().toLowerCase();
       
-      // Calculate scores for each recommendation based on the input text
-      const scoredRecommendations = availableRecommendations.map(rec => {
-        let score = 0;
-        
+    // Calculate scores for each recommendation based on the input text
+    const scoredRecommendations = availableRecommendations.map(rec => {
+      let score = 0;
+      
+      if (inputLower) {
         // Check if task name contains the input text
         if (rec.taskName.toLowerCase().includes(inputLower)) {
           score += 10; // Higher score for task name match
         }
-        
+      
         // Check if any keyword contains the input text
         for (const keyword of rec.keywords) {
           if (keyword.toLowerCase().includes(inputLower)) {
             score += 5; // Score for keyword match
           }
         }
-        
-        return { recommendation: rec, score };
-      });
-      
-      // Sort by score (highest first) and take top N
-      return scoredRecommendations
-        .filter(item => item.score > 0) // Only include items with a score
-        .sort((a, b) => b.score - a.score)
-        .slice(0, limit)
-        .map(item => item.recommendation);
-    }
-    
-    // Without input text, score recommendations based on existing tasks
-    const scoredRecommendations = availableRecommendations.map(rec => {
-      let score = 0;
-      
+      }
+
       // For each existing task, check how relevant this recommendation is
       for (const task of existingTasks) {
         const taskNameLower = task.name.toLowerCase();
